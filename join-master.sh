@@ -1,1 +1,1 @@
-kubeadm join 192.168.1.251:6443 --token 8wryhm.eke08j1gc7nri1cd --discovery-token-ca-cert-hash sha256:687a786c1bd365d7cce6111444a6b69595550008a0450efecdc26e966918961f --control-plane --certificate-key 9614c0acbd8eb0cec9474f6d279f6b80acf98b3b8934360278dcae15154d9312
+kubeadm join 192.168.1.30:6443 --token scfhxc.y86bq3vm7epid1by --discovery-token-ca-cert-hash sha256:a95402706a415964c6e6959020f5036ec127c4749373ea33521c66e5e5f7f250 --control-plane --certificate-key bad17a00ef2300f325d3b34ac42a32c68bd239af00bc55fd721c452768ae96cb

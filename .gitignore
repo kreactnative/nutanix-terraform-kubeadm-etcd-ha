@@ -37,8 +37,7 @@ terraform.rc
 # Custom project paths
 output/*
 terraform.tfvars
-controlplane.yaml
-haproxy.cfg
-talos_setup.sh
-talosconfig
-worker.yaml
+nginx.conf
+cluster.yaml
+join-master.sh
+join-worker.sh

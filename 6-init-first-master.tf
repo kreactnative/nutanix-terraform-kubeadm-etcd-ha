@@ -14,8 +14,21 @@ resource "local_file" "cluster_config" {
   )
   filename = "cluster.yaml"
 }
+resource "local_file" "helm_ciliun_config" {
+  depends_on = [
+    module.etcd_domain,
+    module.elb_domain,
+    null_resource.control-plane-config
+  ]
+  content = templatefile("${path.root}/templates/helm-cni-lb.tmpl",
+    {
+      loadbalancer_ip = module.elb_domain[0].address
+    }
+  )
+  filename = "helm-cni-lb.sh"
+}
 resource "null_resource" "join-first-master" {
-  depends_on = [local_file.cluster_config, module.master_domain, module.etcd_domain, module.elb_domain, local_file.nginx_config]
+  depends_on = [local_file.cluster_config, module.master_domain, module.etcd_domain, module.elb_domain, local_file.nginx_config, local_file.helm_ciliun_config]
   provisioner "file" {
     source      = "cluster.yaml"
     destination = "/home/${var.user}/cluster.yaml"
@@ -37,7 +50,7 @@ resource "null_resource" "join-first-master" {
     }
   }
   provisioner "file" {
-    source      = "scripts/helm-cni-lb.sh"
+    source      = "helm-cni-lb.sh"
     destination = "/home/${var.user}/helm-cni-lb.sh"
     connection {
       type        = "ssh"
@@ -50,6 +63,19 @@ resource "null_resource" "join-first-master" {
     inline = [
       "sudo chmod +x /home/${var.user}/kube-init.sh",
       "sudo /home/${var.user}/kube-init.sh"
+    ]
+    connection {
+      type        = "ssh"
+      user        = var.user
+      host        = module.master_domain[0].address
+      private_key = file("~/.ssh/id_rsa")
+      timeout     = "20s"
+    }
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "sudo chmod +x /home/${var.user}/helm-cni-lb.sh",
+      "sudo /home/${var.user}/helm-cni-lb.sh"
     ]
     connection {
       type        = "ssh"

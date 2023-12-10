@@ -14,7 +14,4 @@ sudo echo $(kubeadm token create --print-join-command) --control-plane --certifi
 sudo kubeadm token create --print-join-command >> join-worker.sh
 sudo chown -R rocky:rocky join-master.sh
 sudo chown -R rocky:rocky join-worker.sh
-#kubectl -n kube-system delete ds kube-proxy
-#kubectl -n kube-system delete cm kube-proxy
-#sudo chmod +x /home/rocky/helm-cni-lb.sh
 export KUBECONFIG=/etc/kubernetes/admin.conf
