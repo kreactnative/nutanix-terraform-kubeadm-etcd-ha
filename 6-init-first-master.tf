@@ -85,6 +85,7 @@ resource "null_resource" "join-first-master" {
       timeout     = "20s"
     }
   }
+
   provisioner "local-exec" {
     command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa ${var.user}@${module.master_domain[0].address}:/home/${var.user}/config $HOME/.kube/k8s-ha-config"
   }

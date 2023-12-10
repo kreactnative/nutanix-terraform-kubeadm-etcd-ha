@@ -13,7 +13,7 @@ helm upgrade --install cilium cilium/cilium \
     --namespace cilium --create-namespace \
     --set bpf.masquerade=true \
     --set encryption.nodeEncryption=false \
-    --set k8sServiceHost=192.168.1.44 \
+    --set k8sServiceHost=192.168.1.78 \
     --set k8sServicePort=6443  \
     --set kubeProxyReplacement=strict  \
     --set operator.replicas=1  \

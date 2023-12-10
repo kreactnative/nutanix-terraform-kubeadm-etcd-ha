@@ -1,1 +1,1 @@
-kubeadm join 192.168.1.44:6443 --token dorwg4.4xqenb1lq8lnqc7u --discovery-token-ca-cert-hash sha256:467e5f83cbbe3343338d219158120555261ff9200a9ac3ecb091a5ec88f6884c 
+kubeadm join 192.168.1.78:6443 --token obgswi.53wws9njjufxephh --discovery-token-ca-cert-hash sha256:f11acae48e4b5b0aac6bd343a0b337b160065b61b0254cdf737c8d6bd5a2928d 
