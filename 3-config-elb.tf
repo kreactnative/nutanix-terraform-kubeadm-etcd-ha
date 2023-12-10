@@ -24,7 +24,7 @@ resource "local_file" "nginx_config" {
 
   provisioner "file" {
     source      = "scripts/nginx.sh"
-    destination = "/home/rocky/nginx.sh"
+    destination = "/home/${var.user}/nginx.sh"
     connection {
       type        = "ssh"
       host        = module.elb_domain[0].address
@@ -35,8 +35,8 @@ resource "local_file" "nginx_config" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo chmod +x /home/rocky/nginx.sh",
-      "sudo /home/rocky/nginx.sh"
+      "sudo chmod +x /home/${var.user}/nginx.sh",
+      "sudo /home/${var.user}/nginx.sh"
     ]
     connection {
       host        = module.elb_domain[0].address

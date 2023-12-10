@@ -24,7 +24,7 @@ resource "null_resource" "etcd-config" {
   count      = length(module.etcd_domain)
   provisioner "file" {
     source      = "output/ca.pem"
-    destination = "/home/rocky/ca.pem"
+    destination = "/home/${var.user}/ca.pem"
     connection {
       type        = "ssh"
       user        = var.user
@@ -34,7 +34,7 @@ resource "null_resource" "etcd-config" {
   }
   provisioner "file" {
     source      = "output/etcd.pem"
-    destination = "/home/rocky/etcd.pem"
+    destination = "/home/${var.user}/etcd.pem"
     connection {
       type        = "ssh"
       user        = var.user
@@ -44,7 +44,7 @@ resource "null_resource" "etcd-config" {
   }
   provisioner "file" {
     source      = "output/etcd-key.pem"
-    destination = "/home/rocky/etcd-key.pem"
+    destination = "/home/${var.user}/etcd-key.pem"
     connection {
       type        = "ssh"
       user        = var.user
@@ -54,7 +54,7 @@ resource "null_resource" "etcd-config" {
   }
   provisioner "file" {
     source      = "output/${module.etcd_domain[count.index].name}.service"
-    destination = "/home/rocky/etcd.service"
+    destination = "/home/${var.user}/etcd.service"
     connection {
       type        = "ssh"
       user        = var.user

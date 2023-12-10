@@ -1,1 +1,1 @@
-kubeadm join 192.168.1.30:6443 --token scfhxc.y86bq3vm7epid1by --discovery-token-ca-cert-hash sha256:a95402706a415964c6e6959020f5036ec127c4749373ea33521c66e5e5f7f250 --control-plane --certificate-key bad17a00ef2300f325d3b34ac42a32c68bd239af00bc55fd721c452768ae96cb
+kubeadm join 192.168.1.44:6443 --token z4u9qm.6b49i616py9iqkjh --discovery-token-ca-cert-hash sha256:467e5f83cbbe3343338d219158120555261ff9200a9ac3ecb091a5ec88f6884c --control-plane --certificate-key 0f74feae7b42a19fa99b7872453013abceb2164c3f9781c33851b2a8520feda4
