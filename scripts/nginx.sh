@@ -10,7 +10,7 @@ sudo dnf install nginx -y
 sudo systemctl enable nginx
 sudo systemctl restart nginx
 sudo dnf install openssl-devel gcc wget curl pcre-devel zlib-devel -y
-sudo yum install gcc glibc glibc-common gd gd-devel -y
+sudo yum install wget gcc glibc glibc-common gd gd-devel -y
 sudo wget https://nginx.org/download/nginx-1.20.1.tar.gz
 tar  -xzvf  nginx-1.20.1.tar.gz
 cd nginx-1.20.1

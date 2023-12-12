@@ -87,7 +87,7 @@ resource "null_resource" "join-first-master" {
   }
 
   provisioner "local-exec" {
-    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa ${var.user}@${module.master_domain[0].address}:/home/${var.user}/config $HOME/.kube/k8s-ha-config"
+    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa ${var.user}@${module.master_domain[0].address}:/home/${var.user}/config $HOME/.kube/proxmox-k8s-ha-config"
   }
   provisioner "local-exec" {
     command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa ${var.user}@${module.master_domain[0].address}:/home/${var.user}/join-master.sh join-master.sh"

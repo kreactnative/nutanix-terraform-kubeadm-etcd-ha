@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/rocky/
+cd /home/rocky/ 
 sudo mkdir -p /etc/kubernetes/pki/etcd
 sudo cp ca.pem etcd.pem etcd-key.pem /etc/kubernetes/pki/etcd/
 sudo kubeadm init --config=cluster.yaml --upload-certs

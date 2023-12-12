@@ -14,7 +14,8 @@ resource "null_resource" "worker-config" {
   provisioner "remote-exec" {
     inline = [
       "sudo chmod +x /home/${var.user}/setup-k8s.sh",
-      "sudo /home/${var.user}/setup-k8s.sh"
+      "sudo /home/${var.user}/setup-k8s.sh",
+      "sudo sh -c  \"echo '${module.worker_domain[count.index].address} ${module.worker_domain[count.index].name}' > /etc/hosts\""
     ]
     connection {
       type        = "ssh"
