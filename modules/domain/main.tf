@@ -33,7 +33,7 @@ resource "proxmox_virtual_environment_vm" "node" {
 
   clone {
     retries = 3
-    vm_id   = 931
+    vm_id   = 1031
   }
 
   network_device {
