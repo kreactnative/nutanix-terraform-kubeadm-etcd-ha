@@ -4,7 +4,7 @@ resource "null_resource" "init-worker" {
   count      = length(module.worker_domain)
   provisioner "file" {
     source      = "join-worker.sh"
-    destination = "/home/${var.user}/join-worker.sh"
+    destination = "/tmp/join-worker.sh"
     connection {
       type        = "ssh"
       user        = var.user
@@ -14,8 +14,8 @@ resource "null_resource" "init-worker" {
   }
   provisioner "remote-exec" {
     inline = [
-      "sudo chmod +x /home/${var.user}/join-worker.sh",
-      "sudo /home/${var.user}/join-worker.sh"
+      "sudo chmod +x /tmp/join-worker.sh",
+      "sudo /tmp/join-worker.sh"
     ]
     connection {
       type        = "ssh"

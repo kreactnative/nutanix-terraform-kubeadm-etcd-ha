@@ -3,7 +3,7 @@ resource "null_resource" "control-plane-config" {
   count      = length(module.master_domain)
   provisioner "file" {
     source      = "output/ca.pem"
-    destination = "/home/${var.user}/ca.pem"
+    destination = "/tmp/ca.pem"
     connection {
       type        = "ssh"
       user        = var.user
@@ -13,7 +13,7 @@ resource "null_resource" "control-plane-config" {
   }
   provisioner "file" {
     source      = "output/etcd.pem"
-    destination = "/home/${var.user}/etcd.pem"
+    destination = "/tmp/etcd.pem"
     connection {
       type        = "ssh"
       user        = var.user
@@ -23,7 +23,7 @@ resource "null_resource" "control-plane-config" {
   }
   provisioner "file" {
     source      = "output/etcd-key.pem"
-    destination = "/home/${var.user}/etcd-key.pem"
+    destination = "/tmp/etcd-key.pem"
     connection {
       type        = "ssh"
       user        = var.user
@@ -33,7 +33,7 @@ resource "null_resource" "control-plane-config" {
   }
   provisioner "file" {
     source      = "scripts/setup-k8s.sh"
-    destination = "/home/${var.user}/setup-k8s.sh"
+    destination = "/tmp/setup-k8s.sh"
     connection {
       type        = "ssh"
       user        = var.user
@@ -43,8 +43,8 @@ resource "null_resource" "control-plane-config" {
   }
   provisioner "remote-exec" {
     inline = [
-      "sudo chmod +x /home/${var.user}/setup-k8s.sh",
-      "sudo /home/${var.user}/setup-k8s.sh",
+      "sudo chmod +x /tmp/setup-k8s.sh",
+      "sudo /tmp/setup-k8s.sh",
       "sudo sh -c  \"echo '${module.master_domain[count.index].address} ${module.master_domain[count.index].name}' > /etc/hosts\""
     ]
     connection {

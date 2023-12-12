@@ -4,7 +4,7 @@ resource "null_resource" "install-lb-gw" {
 
   provisioner "file" {
     source      = "k8s/istio-operator.yaml"
-    destination = "/home/${var.user}/istio-operator.yaml"
+    destination = "/tmp/istio-operator.yaml"
     connection {
       type        = "ssh"
       user        = var.user
@@ -14,7 +14,7 @@ resource "null_resource" "install-lb-gw" {
   }
   provisioner "file" {
     source      = "k8s/istio.yaml"
-    destination = "/home/${var.user}/istio.yaml"
+    destination = "/tmp/istio.yaml"
     connection {
       type        = "ssh"
       user        = var.user
@@ -24,7 +24,7 @@ resource "null_resource" "install-lb-gw" {
   }
   provisioner "file" {
     source      = "k8s/metal-ip.yaml"
-    destination = "/home/${var.user}/metal-ip.yaml"
+    destination = "/tmp/metal-ip.yaml"
     connection {
       type        = "ssh"
       user        = var.user
@@ -34,7 +34,7 @@ resource "null_resource" "install-lb-gw" {
   }
   provisioner "file" {
     source      = "k8s/metric-server.yaml"
-    destination = "/home/${var.user}/metric-server.yaml"
+    destination = "/tmp/metric-server.yaml"
     connection {
       type        = "ssh"
       user        = var.user
@@ -44,7 +44,7 @@ resource "null_resource" "install-lb-gw" {
   }
   provisioner "file" {
     source      = "k8s/ssl.yaml"
-    destination = "/home/${var.user}/ssl.yaml"
+    destination = "/tmp/ssl.yaml"
     connection {
       type        = "ssh"
       user        = var.user
@@ -54,7 +54,7 @@ resource "null_resource" "install-lb-gw" {
   }
   provisioner "file" {
     source      = "scripts/istio.sh"
-    destination = "/home/${var.user}/istio.sh"
+    destination = "/tmp/istio.sh"
     connection {
       type        = "ssh"
       user        = var.user
@@ -64,8 +64,8 @@ resource "null_resource" "install-lb-gw" {
   }
   provisioner "remote-exec" {
     inline = [
-      "sudo chmod +x /home/${var.user}/istio.sh",
-      "sudo /home/${var.user}/istio.sh"
+      "sudo chmod +x /tmp/istio.sh",
+      "sudo /tmp/istio.sh"
     ]
     connection {
       type        = "ssh"

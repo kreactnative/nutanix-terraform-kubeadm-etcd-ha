@@ -4,7 +4,7 @@ resource "null_resource" "init-other-master" {
   count      = var.MASTER_COUNT - 1
   provisioner "file" {
     source      = "join-master.sh"
-    destination = "/home/${var.user}/join-master.sh"
+    destination = "/tmp/join-master.sh"
     connection {
       type        = "ssh"
       user        = var.user
@@ -14,8 +14,8 @@ resource "null_resource" "init-other-master" {
   }
   provisioner "remote-exec" {
     inline = [
-      "sudo chmod +x /home/${var.user}/join-master.sh",
-      "sudo /home/${var.user}/join-master.sh"
+      "sudo chmod +x /tmp/join-master.sh",
+      "sudo /tmp/join-master.sh"
     ]
     connection {
       type        = "ssh"

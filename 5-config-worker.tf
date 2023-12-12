@@ -3,7 +3,7 @@ resource "null_resource" "worker-config" {
   count      = length(module.worker_domain)
   provisioner "file" {
     source      = "scripts/setup-k8s.sh"
-    destination = "/home/${var.user}/setup-k8s.sh"
+    destination = "/tmp/setup-k8s.sh"
     connection {
       type        = "ssh"
       user        = var.user
@@ -13,8 +13,8 @@ resource "null_resource" "worker-config" {
   }
   provisioner "remote-exec" {
     inline = [
-      "sudo chmod +x /home/${var.user}/setup-k8s.sh",
-      "sudo /home/${var.user}/setup-k8s.sh",
+      "sudo chmod +x /tmp/setup-k8s.sh",
+      "sudo /tmp/setup-k8s.sh",
       "sudo sh -c  \"echo '${module.worker_domain[count.index].address} ${module.worker_domain[count.index].name}' > /etc/hosts\""
     ]
     connection {

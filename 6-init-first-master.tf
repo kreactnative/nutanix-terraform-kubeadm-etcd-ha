@@ -31,7 +31,7 @@ resource "null_resource" "join-first-master" {
   depends_on = [local_file.cluster_config, module.master_domain, module.etcd_domain, module.elb_domain, local_file.nginx_config, local_file.helm_ciliun_config]
   provisioner "file" {
     source      = "cluster.yaml"
-    destination = "/home/${var.user}/cluster.yaml"
+    destination = "/tmp/cluster.yaml"
     connection {
       type        = "ssh"
       user        = var.user
@@ -41,7 +41,7 @@ resource "null_resource" "join-first-master" {
   }
   provisioner "file" {
     source      = "scripts/kube-init.sh"
-    destination = "/home/${var.user}/kube-init.sh"
+    destination = "/tmp/kube-init.sh"
     connection {
       type        = "ssh"
       user        = var.user
@@ -51,7 +51,7 @@ resource "null_resource" "join-first-master" {
   }
   provisioner "file" {
     source      = "helm-cni-lb.sh"
-    destination = "/home/${var.user}/helm-cni-lb.sh"
+    destination = "/tmp/helm-cni-lb.sh"
     connection {
       type        = "ssh"
       user        = var.user
@@ -61,8 +61,8 @@ resource "null_resource" "join-first-master" {
   }
   provisioner "remote-exec" {
     inline = [
-      "sudo chmod +x /home/${var.user}/kube-init.sh",
-      "sudo /home/${var.user}/kube-init.sh"
+      "sudo chmod +x /tmp/kube-init.sh",
+      "sudo /tmp/kube-init.sh"
     ]
     connection {
       type        = "ssh"
@@ -74,8 +74,8 @@ resource "null_resource" "join-first-master" {
   }
   provisioner "remote-exec" {
     inline = [
-      "sudo chmod +x /home/${var.user}/helm-cni-lb.sh",
-      "sudo /home/${var.user}/helm-cni-lb.sh"
+      "sudo chmod +x /tmp/helm-cni-lb.sh",
+      "sudo /tmp/helm-cni-lb.sh"
     ]
     connection {
       type        = "ssh"
@@ -87,12 +87,12 @@ resource "null_resource" "join-first-master" {
   }
 
   provisioner "local-exec" {
-    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa ${var.user}@${module.master_domain[0].address}:/home/${var.user}/config $HOME/.kube/proxmox-k8s-ha-config"
+    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa ${var.user}@${module.master_domain[0].address}:/tmp/config $HOME/.kube/proxmox-k8s-ha-config"
   }
   provisioner "local-exec" {
-    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa ${var.user}@${module.master_domain[0].address}:/home/${var.user}/join-master.sh join-master.sh"
+    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa ${var.user}@${module.master_domain[0].address}:/tmp/join-master.sh join-master.sh"
   }
   provisioner "local-exec" {
-    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa ${var.user}@${module.master_domain[0].address}:/home/${var.user}/join-worker.sh join-worker.sh"
+    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa ${var.user}@${module.master_domain[0].address}:/tmp/join-worker.sh join-worker.sh"
   }
 }
