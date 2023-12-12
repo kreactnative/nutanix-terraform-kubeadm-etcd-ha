@@ -14,10 +14,16 @@ resource "proxmox_virtual_environment_vm" "node" {
   bios                = "seabios"
   scsi_hardware       = "virtio-scsi-pci"
   timeout_shutdown_vm = 300
-  tags                = ["rocky-9", "k8s"]
+  tags                = ["alma-linux-9", "k8s"]
 
   memory {
     dedicated = var.memory
+  }
+
+  disk {
+    datastore_id = "local-lvm"
+    interface    = "scsi0"
+    size         = 60
   }
 
   cpu {
@@ -33,7 +39,7 @@ resource "proxmox_virtual_environment_vm" "node" {
 
   clone {
     retries = 3
-    vm_id   = 1031
+    vm_id   = 932
   }
 
   network_device {

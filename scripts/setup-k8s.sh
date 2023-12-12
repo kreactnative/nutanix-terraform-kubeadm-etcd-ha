@@ -2,7 +2,7 @@
 sudo timedatectl set-timezone Asia/Bangkok
 dnf makecache --refresh
 dnf update --allowerasing --skip-broken --nobest  -y
-cat /etc/rocky-release
+#cat /etc/rocky-release
 uname -r
 setenforce 0
 sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config

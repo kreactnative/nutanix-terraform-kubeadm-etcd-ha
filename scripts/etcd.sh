@@ -8,10 +8,10 @@ sudo firewall-cmd --permanent --add-port=2379/tcp --zone=public
 sudo firewall-cmd --permanent --add-port=2380/tcp --zone=public
 sudo systemctl restart firewalld
 sudo mkdir -p /etc/etcd/pki
-sudo cp /home/rocky/ca.pem /etc/etcd/pki/
-sudo cp /home/rocky/etcd.pem /etc/etcd/pki/
-sudo cp /home/rocky/etcd-key.pem /etc/etcd/pki/
-sudo cp /home/rocky/etcd.service /etc/systemd/system/etcd.service
+sudo cp /home/almalinux/ca.pem /etc/etcd/pki/
+sudo cp /home/almalinux/etcd.pem /etc/etcd/pki/
+sudo cp /home/almalinux/etcd-key.pem /etc/etcd/pki/
+sudo cp /home/almalinux/etcd.service /etc/systemd/system/etcd.service
 sudo yum install wget tar -y
 wget https://github.com/etcd-io/etcd/releases/download/v3.5.10/etcd-v3.5.10-linux-amd64.tar.gz
 tar zxf etcd-v3.5.10-linux-amd64.tar.gz

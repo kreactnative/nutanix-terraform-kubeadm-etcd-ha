@@ -44,7 +44,7 @@ resource "null_resource" "control-plane-config" {
   provisioner "remote-exec" {
     inline = [
       "sudo chmod +x /home/${var.user}/setup-k8s.sh",
-      "sudo /home/rocky/setup-k8s.sh",
+      "sudo /home/${var.user}/setup-k8s.sh",
       "sudo sh -c  \"echo '${module.master_domain[count.index].address} ${module.master_domain[count.index].name}' > /etc/hosts\""
     ]
     connection {
