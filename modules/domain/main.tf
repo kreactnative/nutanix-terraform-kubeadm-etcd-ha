@@ -1,69 +1,54 @@
 terraform {
   required_providers {
-    proxmox = {
-      source  = "bpg/proxmox"
-      version = "0.38.1"
+    nutanix = {
+      source  = "nutanix/nutanix"
+      version = "1.2.0"
     }
   }
 }
 
-resource "proxmox_virtual_environment_vm" "node" {
-  name                = var.name
-  on_boot             = var.autostart
-  node_name           = var.target_node
-  bios                = "seabios"
-  scsi_hardware       = "virtio-scsi-pci"
-  timeout_shutdown_vm = 300
-  tags                = ["alma-linux-9", "k8s"]
+resource "nutanix_image" "image" {
+  name        = "Alma Linux"
+  description = "Alma Linux"
+  source_uri  = "https://repo.almalinux.org/almalinux/9/cloud/x86_64/images/AlmaLinux-9-GenericCloud-9.3-20231113.x86_64.qcow2"
+}
 
-  memory {
-    dedicated = var.memory
+data "nutanix_cluster" "cluster" {
+  name = "pertisk"
+}
+
+data "nutanix_subnet" "subnet" {
+  subnet_name = "demo-subnet"
+}
+
+
+resource "nutanix_virtual_machine" "vm" {
+  count                = var.VM_COUNT
+  name                 = "${var.prefix_node_name}-0${count.index}"
+  cluster_uuid         = data.nutanix_cluster.cluster.id
+  num_vcpus_per_socket = var.vcpus
+  num_sockets          = var.sockets
+  memory_size_mib      = var.memory * 1024
+  disk_list {
+    data_source_reference = {
+      kind = "image"
+      uuid = nutanix_image.image.id
+    }
   }
 
-  disk {
-    datastore_id = "local-lvm"
-    interface    = "scsi0"
-    size         = 60
+  nic_list {
+    subnet_uuid = data.nutanix_subnet.subnet.id
   }
 
-  cpu {
-    cores   = var.vcpus
-    type    = "host"
-    sockets = var.sockets
-  }
-
-  agent {
-    enabled = true
-    timeout = "10s"
-  }
-
-  clone {
-    retries = 3
-    vm_id   = 932
-  }
-
-  network_device {
-    model  = "virtio"
-    bridge = var.default_bridge
-  }
-
-  initialization {
-    ip_config {
-      ipv4 {
-        address = "dhcp"
+  disk_list {
+    disk_size_mib = 20000
+    device_properties {
+      device_type = "DISK"
+      disk_address = {
+        "adapter_type" = "SCSI"
+        "device_index" = "1"
       }
     }
-
-    user_account {
-      keys     = [var.ssh_key]
-      username = var.user
-    }
   }
-
-}
-
-data "external" "address" {
-  depends_on  = [proxmox_virtual_environment_vm.node]
-  working_dir = path.root
-  program     = ["bash", "scripts/ip.sh", "${lower(proxmox_virtual_environment_vm.node.network_device[0].mac_address)}"]
+  guest_customization_cloud_init_user_data = filebase64("./cloudinit.yaml")
 }

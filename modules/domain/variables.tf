@@ -6,11 +6,6 @@ variable "user" {
   type        = string
   default     = "rocky"
 }
-variable "name" {
-  description = "Name of node"
-  type        = string
-}
-
 variable "memory" {
   description = "Amount of memory needed"
   type        = string
@@ -39,4 +34,12 @@ variable "default_bridge" {
 variable "target_node" {
   description = "Target node name in proxmox"
   type        = string
+}
+variable "prefix_node_name" {
+  description = "Target node name in proxmox"
+  type        = string
+}
+variable "VM_COUNT" {
+  description = "Number of masters to create (Should be an odd number)"
+  type        = number
 }
