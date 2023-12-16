@@ -3,6 +3,9 @@ variable "user" {
   type        = string
   default     = "almalinux"
 }
+variable "ssh_key" {
+  type    = string
+}
 variable "memory" {
   description = "Amount of memory needed"
   type        = string
@@ -24,9 +27,6 @@ variable "prefix_node_name" {
 variable "VM_COUNT" {
   description = "Number of masters to create (Should be an odd number)"
   type        = number
-}
-variable "cloudinit_data" {
-  type = string
 }
 variable "nutanix_cluster_name" {
   type = string

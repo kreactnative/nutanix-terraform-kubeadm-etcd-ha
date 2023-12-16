@@ -26,18 +26,8 @@ resource "null_resource" "cleanup" {
   }
 }
 
-resource "local_file" "cloudinit" {
-  content = templatefile("templates/cloudinit.tmpl",
-    {
-      user    = var.user,
-      ssh_key = var.ssh_key
-    }
-  )
-  filename = "cloudinit.yaml"
-}
 
 module "master_domain" {
-  depends_on           = [local_file.cloudinit]
   source               = "./modules/domain"
   VM_COUNT             = var.MASTER_COUNT
   prefix_node_name     = "master"
@@ -45,13 +35,12 @@ module "master_domain" {
   vcpus                = var.master_config.vcpus
   sockets              = var.master_config.sockets
   user                 = var.user
-  cloudinit_data       = filebase64("${path.root}/cloudinit.yaml")
+  ssh_key              = var.ssh_key
   nutanix_cluster_name = var.nutanix_cluster_name
   nutanix_subnet_name  = var.nutanix_subnet_name
 }
 
 module "worker_domain" {
-  depends_on           = [local_file.cloudinit]
   source               = "./modules/domain"
   VM_COUNT             = var.WORKER_COUNT
   prefix_node_name     = "worker"
@@ -59,13 +48,12 @@ module "worker_domain" {
   vcpus                = var.worker_config.vcpus
   sockets              = var.worker_config.sockets
   user                 = var.user
-  cloudinit_data       = filebase64("${path.root}/cloudinit.yaml")
+  ssh_key              = var.ssh_key
   nutanix_cluster_name = var.nutanix_cluster_name
   nutanix_subnet_name  = var.nutanix_subnet_name
 }
 
 module "etcd_domain" {
-  depends_on           = [local_file.cloudinit]
   source               = "./modules/domain"
   VM_COUNT             = var.ETCD_COUNT
   prefix_node_name     = "etcd"
@@ -73,13 +61,12 @@ module "etcd_domain" {
   vcpus                = var.etcd_config.vcpus
   sockets              = var.etcd_config.sockets
   user                 = var.user
-  cloudinit_data       = filebase64("${path.root}/cloudinit.yaml")
+  ssh_key              = var.ssh_key
   nutanix_cluster_name = var.nutanix_cluster_name
   nutanix_subnet_name  = var.nutanix_subnet_name
 }
 
 module "elb_domain" {
-  depends_on           = [local_file.cloudinit]
   source               = "./modules/domain"
   VM_COUNT             = var.ELB_COUNT
   prefix_node_name     = "elb"
@@ -87,7 +74,7 @@ module "elb_domain" {
   vcpus                = var.elb_config.vcpus
   sockets              = var.elb_config.sockets
   user                 = var.user
-  cloudinit_data       = filebase64("${path.root}/cloudinit.yaml")
+  ssh_key              = var.ssh_key
   nutanix_cluster_name = var.nutanix_cluster_name
   nutanix_subnet_name  = var.nutanix_subnet_name
 }
