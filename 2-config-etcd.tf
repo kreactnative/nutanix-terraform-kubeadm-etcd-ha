@@ -12,7 +12,7 @@ resource "docker_container" "etcd-gen" {
   tty        = true
   rm         = true
   attach     = false
-  env        = ["ETCD1_IP=${module.etcd_domain[0].address}", "ETCD2_IP=${module.etcd_domain[1].address}", "ETCD3_IP=${module.etcd_domain[2].address}"]
+  env        = ["ETCD1_IP=${module.etcd_domain.address[0].ip}", "ETCD2_IP=${module.etcd_domain.address[1].ip}", "ETCD3_IP=${module.etcd_domain.address[2].ip}"]
   volumes {
     container_path = "/app/certificate"
     host_path      = "${abspath(path.module)}/output"
@@ -28,7 +28,7 @@ resource "null_resource" "etcd-config" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.etcd_domain[count.index].address
+      host        = module.etcd_domain.address[count.index].ip
       private_key = file("~/.ssh/id_rsa")
     }
   }
@@ -38,7 +38,7 @@ resource "null_resource" "etcd-config" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.etcd_domain[count.index].address
+      host        = module.etcd_domain.address[count.index].ip
       private_key = file("~/.ssh/id_rsa")
     }
   }
@@ -48,23 +48,23 @@ resource "null_resource" "etcd-config" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.etcd_domain[count.index].address
+      host        = module.etcd_domain.address[count.index].ip
       private_key = file("~/.ssh/id_rsa")
     }
   }
   provisioner "file" {
-    source      = "output/${module.etcd_domain[count.index].name}.service"
+    source      = "output/${module.etcd_domain.name[count.index]}.service"
     destination = "/tmp/etcd.service"
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.etcd_domain[count.index].address
+      host        = module.etcd_domain.address[count.index].ip
       private_key = file("~/.ssh/id_rsa")
     }
   }
   provisioner "remote-exec" {
     connection {
-      host        = module.etcd_domain[count.index].address
+      host        = module.etcd_domain.address[count.index].ip
       user        = var.user
       private_key = file("~/.ssh/id_rsa")
     }

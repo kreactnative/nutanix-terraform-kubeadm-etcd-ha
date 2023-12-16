@@ -8,7 +8,7 @@ resource "null_resource" "install-lb-gw" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.master_domain[0].address
+      host        = module.master_domain.address[0].ip
       private_key = file("~/.ssh/id_rsa")
     }
   }
@@ -18,7 +18,7 @@ resource "null_resource" "install-lb-gw" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.master_domain[0].address
+      host        = module.master_domain.address[0].ip
       private_key = file("~/.ssh/id_rsa")
     }
   }
@@ -28,7 +28,7 @@ resource "null_resource" "install-lb-gw" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.master_domain[0].address
+      host        = module.master_domain.address[0].ip
       private_key = file("~/.ssh/id_rsa")
     }
   }
@@ -38,7 +38,7 @@ resource "null_resource" "install-lb-gw" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.master_domain[0].address
+      host        = module.master_domain.address[0].ip
       private_key = file("~/.ssh/id_rsa")
     }
   }
@@ -48,7 +48,7 @@ resource "null_resource" "install-lb-gw" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.master_domain[0].address
+      host        = module.master_domain.address[0].ip
       private_key = file("~/.ssh/id_rsa")
     }
   }
@@ -58,7 +58,7 @@ resource "null_resource" "install-lb-gw" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.master_domain[0].address
+      host        = module.master_domain.address[0].ip
       private_key = file("~/.ssh/id_rsa")
     }
   }
@@ -70,7 +70,7 @@ resource "null_resource" "install-lb-gw" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.master_domain[0].address
+      host        = module.master_domain.address[0].ip
       private_key = file("~/.ssh/id_rsa")
       timeout     = "20s"
     }

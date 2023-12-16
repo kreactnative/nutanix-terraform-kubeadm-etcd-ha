@@ -6,7 +6,7 @@ resource "local_file" "nginx_config" {
   content = templatefile("${path.root}/templates/nginx.tmpl",
     {
       node_map_masters = zipmap(
-        tolist(module.master_domain.*.address), tolist(module.master_domain.*.name)
+        tolist(module.master_domain.address[*].ip), tolist(module.master_domain.name[*])
       ),
     }
   )
@@ -16,7 +16,7 @@ resource "local_file" "nginx_config" {
     destination = "/tmp/nginx.conf"
     connection {
       type        = "ssh"
-      host        = module.elb_domain[0].address
+      host        = module.elb_domain.address[0].ip
       user        = var.user
       private_key = file("~/.ssh/id_rsa")
     }
@@ -27,7 +27,7 @@ resource "local_file" "nginx_config" {
     destination = "/tmp/nginx.sh"
     connection {
       type        = "ssh"
-      host        = module.elb_domain[0].address
+      host        = module.elb_domain.address[0].ip
       user        = var.user
       private_key = file("~/.ssh/id_rsa")
     }
@@ -39,7 +39,7 @@ resource "local_file" "nginx_config" {
       "sudo /tmp/nginx.sh"
     ]
     connection {
-      host        = module.elb_domain[0].address
+      host        = module.elb_domain.address[0].ip
       user        = var.user
       private_key = file("~/.ssh/id_rsa")
     }
