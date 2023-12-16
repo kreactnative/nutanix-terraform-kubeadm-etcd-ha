@@ -77,4 +77,5 @@ elb_config = {
   sockets = 1
 }
 metallb_load_balancer_ip = "192.168.1.40"
+istio_version = "1.20.1"
 ```
