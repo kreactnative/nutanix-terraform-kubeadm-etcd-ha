@@ -7,7 +7,7 @@ resource "null_resource" "worker-config" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.worker_domain.address[count.index].ip
+      host        = module.worker_domain.address[count.index]
       private_key = file("~/.ssh/id_rsa")
     }
   }
@@ -15,12 +15,12 @@ resource "null_resource" "worker-config" {
     inline = [
       "sudo chmod +x /tmp/setup-k8s.sh",
       "sudo /tmp/setup-k8s.sh",
-      "sudo sh -c  \"echo '${module.worker_domain.address[count.index].ip} ${module.worker_domain.name[count.index]}' > /etc/hosts\""
+      "sudo sh -c  \"echo '${module.worker_domain.address[count.index]} ${module.worker_domain.name[count.index]}' > /etc/hosts\""
     ]
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.worker_domain.address[count.index].ip
+      host        = module.worker_domain.address[count.index]
       private_key = file("~/.ssh/id_rsa")
       timeout     = "20s"
     }

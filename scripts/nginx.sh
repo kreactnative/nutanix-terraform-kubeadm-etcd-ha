@@ -1,11 +1,11 @@
 #!/bin/bash
 
-sudo dnf install firewalld -y
-sudo systemctl enable firewalld
-sudo systemctl start firewalld
-sudo firewall-cmd --permanent --add-port=22/tcp --zone=public
-sudo firewall-cmd --permanent --add-port=6443/tcp --zone=public
-sudo systemctl restart firewalld
+#sudo dnf install firewalld -y
+#sudo systemctl enable firewalld
+#sudo systemctl start firewalld
+#sudo firewall-cmd --permanent --add-port=22/tcp --zone=public
+#sudo firewall-cmd --permanent --add-port=6443/tcp --zone=public
+#sudo systemctl restart firewalld
 sudo dnf install nginx -y
 sudo systemctl enable nginx
 sudo systemctl restart nginx

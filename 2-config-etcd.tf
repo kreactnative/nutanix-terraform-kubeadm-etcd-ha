@@ -12,7 +12,7 @@ resource "docker_container" "etcd-gen" {
   tty        = true
   rm         = true
   attach     = false
-  env        = ["ETCD1_IP=${module.etcd_domain.address[0].ip}", "ETCD2_IP=${module.etcd_domain.address[1].ip}", "ETCD3_IP=${module.etcd_domain.address[2].ip}"]
+  env        = ["ETCD1_IP=${module.etcd_domain.address[0]}", "ETCD2_IP=${module.etcd_domain.address[1]}", "ETCD3_IP=${module.etcd_domain.address[2]}"]
   volumes {
     container_path = "/app/certificate"
     host_path      = "${abspath(path.module)}/output"
@@ -28,7 +28,7 @@ resource "null_resource" "etcd-config" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.etcd_domain.address[count.index].ip
+      host        = module.etcd_domain.address[count.index]
       private_key = file("~/.ssh/id_rsa")
     }
   }
@@ -38,7 +38,7 @@ resource "null_resource" "etcd-config" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.etcd_domain.address[count.index].ip
+      host        = module.etcd_domain.address[count.index]
       private_key = file("~/.ssh/id_rsa")
     }
   }
@@ -48,7 +48,7 @@ resource "null_resource" "etcd-config" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.etcd_domain.address[count.index].ip
+      host        = module.etcd_domain.address[count.index]
       private_key = file("~/.ssh/id_rsa")
     }
   }
@@ -58,16 +58,29 @@ resource "null_resource" "etcd-config" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.etcd_domain.address[count.index].ip
+      host        = module.etcd_domain.address[count.index]
+      private_key = file("~/.ssh/id_rsa")
+    }
+  }
+  provisioner "file" {
+    source      = "scripts/etcd.sh"
+    destination = "/tmp/etcd.sh"
+    connection {
+      type        = "ssh"
+      user        = var.user
+      host        = module.etcd_domain.address[count.index]
       private_key = file("~/.ssh/id_rsa")
     }
   }
   provisioner "remote-exec" {
+    inline = [
+      "sudo chmod +x /tmp/etcd.sh",
+      "sudo /tmp/etcd.sh"
+    ]
     connection {
-      host        = module.etcd_domain.address[count.index].ip
+      host        = module.etcd_domain.address[count.index]
       user        = var.user
       private_key = file("~/.ssh/id_rsa")
     }
-    script = "${path.root}/scripts/etcd.sh"
   }
 }

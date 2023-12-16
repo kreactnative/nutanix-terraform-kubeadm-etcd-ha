@@ -6,9 +6,9 @@ resource "local_file" "cluster_config" {
   ]
   content = templatefile("${path.root}/templates/config.tmpl",
     {
-      loadbalancer_ip = module.elb_domain.address[0].ip,
+      loadbalancer_ip = module.elb_domain.address[0],
       node_etcds = zipmap(
-        tolist(module.etcd_domain.address[*].ip), tolist(module.etcd_domain.address[*].ip)
+        tolist(module.etcd_domain.address[*]), tolist(module.etcd_domain.address[*])
       )
     }
   )
@@ -22,7 +22,7 @@ resource "local_file" "helm_ciliun_config" {
   ]
   content = templatefile("${path.root}/templates/helm-cni-lb.tmpl",
     {
-      loadbalancer_ip = module.elb_domain.address[0].ip
+      loadbalancer_ip = module.elb_domain.address[0]
     }
   )
   filename = "helm-cni-lb.sh"
@@ -35,7 +35,7 @@ resource "null_resource" "join-first-master" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.master_domain.address[0].ip
+      host        = module.master_domain.address[0]
       private_key = file("~/.ssh/id_rsa")
     }
   }
@@ -45,7 +45,7 @@ resource "null_resource" "join-first-master" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.master_domain.address[0].ip
+      host        = module.master_domain.address[0]
       private_key = file("~/.ssh/id_rsa")
     }
   }
@@ -55,7 +55,7 @@ resource "null_resource" "join-first-master" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.master_domain.address[0].ip
+      host        = module.master_domain.address[0]
       private_key = file("~/.ssh/id_rsa")
     }
   }
@@ -67,7 +67,7 @@ resource "null_resource" "join-first-master" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.master_domain.address[0].ip
+      host        = module.master_domain.address[0]
       private_key = file("~/.ssh/id_rsa")
       timeout     = "20s"
     }
@@ -80,19 +80,19 @@ resource "null_resource" "join-first-master" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.master_domain.address[0].ip
+      host        = module.master_domain.address[0]
       private_key = file("~/.ssh/id_rsa")
       timeout     = "20s"
     }
   }
 
   provisioner "local-exec" {
-    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa ${var.user}@${module.master_domain.address[0].ip}:/tmp/config $HOME/.kube/nutanix-k8s-ha-config"
+    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa ${var.user}@${module.master_domain.address[0]}:/tmp/config $HOME/.kube/nutanix-k8s-ha-config"
   }
   provisioner "local-exec" {
-    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa ${var.user}@${module.master_domain.address[0].ip}:/tmp/join-master.sh join-master.sh"
+    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa ${var.user}@${module.master_domain.address[0]}:/tmp/join-master.sh join-master.sh"
   }
   provisioner "local-exec" {
-    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa ${var.user}@${module.master_domain.address[0].ip}:/tmp/join-worker.sh join-worker.sh"
+    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa ${var.user}@${module.master_domain.address[0]}:/tmp/join-worker.sh join-worker.sh"
   }
 }

@@ -1,12 +1,12 @@
 #!/bin/bash
 
-sudo dnf install firewalld -y
-sudo systemctl enable firewalld
-sudo systemctl start firewalld
-sudo firewall-cmd --permanent --add-port=22/tcp --zone=public
-sudo firewall-cmd --permanent --add-port=2379/tcp --zone=public
-sudo firewall-cmd --permanent --add-port=2380/tcp --zone=public
-sudo systemctl restart firewalld
+#sudo dnf install firewalld -y
+#sudo systemctl enable firewalld
+#sudo systemctl start firewalld
+#sudo firewall-cmd --permanent --add-port=22/tcp --zone=public
+#sudo firewall-cmd --permanent --add-port=2379/tcp --zone=public
+#sudo firewall-cmd --permanent --add-port=2380/tcp --zone=public
+#sudo systemctl restart firewalld
 sudo mkdir -p /etc/etcd/pki
 sudo cp /tmp/ca.pem /etc/etcd/pki/
 sudo cp /tmp/etcd.pem /etc/etcd/pki/

@@ -8,7 +8,7 @@ resource "null_resource" "init-worker" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.worker_domain.address[count.index].ip
+      host        = module.worker_domain.address[count.index]
       private_key = file("~/.ssh/id_rsa")
     }
   }
@@ -20,7 +20,7 @@ resource "null_resource" "init-worker" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.worker_domain.address[count.index].ip
+      host        = module.worker_domain.address[count.index]
       private_key = file("~/.ssh/id_rsa")
       timeout     = "20s"
     }

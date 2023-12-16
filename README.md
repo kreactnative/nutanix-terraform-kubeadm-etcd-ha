@@ -70,8 +70,3 @@ elb_config = {
   sockets = 1
 }
 ```
-### create cloud init template
-```
-wget "https://repo.almalinux.org/almalinux/9/cloud/x86_64/images/AlmaLinux-9-GenericCloud-latest.x86_64.qcow2"
-create_template 932 "alma-linux-9" "AlmaLinux-9-GenericCloud-latest.x86_64.qcow2"
-```
