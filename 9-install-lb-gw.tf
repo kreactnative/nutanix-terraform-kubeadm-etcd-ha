@@ -1,3 +1,4 @@
+# Tempolary fixed
 resource "null_resource" "generte-metallb-istio" {
   provisioner "local-exec" {
     command = "cp -r ${path.root}/templates/metal-ip.tmpl metal-ip.yaml"
@@ -12,6 +13,7 @@ resource "null_resource" "generte-metallb-istio" {
     command = "sed -i -e 's/istio_version_re/${var.istio_version}/g' istio.sh"
   }
 }
+# TODO NOT WORK
 resource "local_file" "metallb-ip" {
   content = templatefile("${path.root}/templates/metal-ip.tmpl",
     {
@@ -20,6 +22,7 @@ resource "local_file" "metallb-ip" {
   )
   filename = "metal-ip.yaml"
 }
+# TODO NOT WORK
 resource "local_file" "istio-sh" {
   content = templatefile("${path.root}/templates/istio.tmpl",
     {
