@@ -18,7 +18,7 @@ flowchart TB
     subgraph Worker
     end
     Macos-->Terraform
-    Terraform-->Proxmox
+    Terraform-->Nutanix
     Nutanix-->VM
     VM-->ETCD
     VM-->ControlPlane
