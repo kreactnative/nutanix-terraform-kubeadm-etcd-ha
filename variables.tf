@@ -8,22 +8,25 @@ variable "user" {
 }
 # Cluster config
 variable "MASTER_COUNT" {
-  description = "Number of masters to create (Should be an odd number)"
+  description = "Number of masters to create"
   type        = number
+  default     = 3
 }
 
 variable "WORKER_COUNT" {
   description = "Number of workers to create"
   type        = number
+  default     = 2
 }
 
 variable "ETCD_COUNT" {
   description = "Number of etct to create"
   type        = number
+  default     = 3
 }
 
 variable "ELB_COUNT" {
-  description = "Number of etct to create"
+  description = "Number of elb to create"
   type        = number
   default     = 1
 }
