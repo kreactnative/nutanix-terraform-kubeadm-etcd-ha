@@ -39,9 +39,6 @@ module "master_domain" {
   memory           = var.master_config.memory
   vcpus            = var.master_config.vcpus
   sockets          = var.master_config.sockets
-  autostart        = var.autostart
-  default_bridge   = var.DEFAULT_BRIDGE
-  target_node      = var.TARGET_NODE
   ssh_key          = var.ssh_key
   user             = var.user
 }
@@ -53,9 +50,6 @@ module "worker_domain" {
   memory           = var.worker_config.memory
   vcpus            = var.worker_config.vcpus
   sockets          = var.worker_config.sockets
-  autostart        = var.autostart
-  default_bridge   = var.DEFAULT_BRIDGE
-  target_node      = var.TARGET_NODE
   ssh_key          = var.ssh_key
   user             = var.user
 }
@@ -67,9 +61,6 @@ module "etcd_domain" {
   memory           = var.etcd_config.memory
   vcpus            = var.etcd_config.vcpus
   sockets          = var.etcd_config.sockets
-  autostart        = var.autostart
-  default_bridge   = var.DEFAULT_BRIDGE
-  target_node      = var.TARGET_NODE
   ssh_key          = var.ssh_key
   user             = var.user
 }
@@ -81,9 +72,6 @@ module "elb_domain" {
   memory           = var.elb_config.memory
   vcpus            = var.elb_config.vcpus
   sockets          = var.elb_config.sockets
-  autostart        = var.autostart
-  default_bridge   = var.DEFAULT_BRIDGE
-  target_node      = var.TARGET_NODE
   ssh_key          = var.ssh_key
   user             = var.user
 }

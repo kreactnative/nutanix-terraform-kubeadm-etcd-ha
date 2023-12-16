@@ -17,20 +17,6 @@ data "nutanix_cluster" "cluster" {
   name = "pertisk"
 }
 
-/*resource "nutanix_subnet" "k8s-subnet" {
-  name         = "k8s-subnet"
-  cluster_uuid = data.nutanix_cluster.cluster.cluster_id
-  vlan_id      = 0
-  subnet_type  = "VLAN"
-
-  prefix_length              = 24
-  default_gateway_ip         = "192.168.1.1"
-  subnet_ip                  = "192.168.1.225/16"
-  ip_config_pool_list_ranges = ["192.168.1.225 192.168.1.250"]
-
-  dhcp_domain_name_server_list = ["8.8.8.8", "1.1.1.1"]
-}*/
-
 data "nutanix_subnet" "subnet" {
   subnet_name = "k8s-subnet"
 }

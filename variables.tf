@@ -6,29 +6,6 @@ variable "user" {
   type        = string
   default     = "almalinux"
 }
-
-variable "system_type" {
-  description = "System type"
-  type        = string
-
-  validation {
-    condition     = var.system_type == "intel" || var.system_type == "amd"
-    error_message = "Valid values for system_type are 'intel' or 'amd'"
-  }
-}
-
-# Hypervisor config
-variable "DEFAULT_BRIDGE" {
-  description = "Bridge to use when creating VMs in proxmox"
-  type        = string
-  default     = ""
-}
-
-variable "TARGET_NODE" {
-  description = "Target node name in proxmox"
-  type        = string
-  default     = ""
-}
 # Cluster config
 variable "MASTER_COUNT" {
   description = "Number of masters to create (Should be an odd number)"
@@ -49,11 +26,6 @@ variable "ELB_COUNT" {
   description = "Number of etct to create"
   type        = number
   default     = 1
-}
-
-variable "autostart" {
-  description = "Enable/Disable VM start on host bootup"
-  type        = bool
 }
 
 variable "master_config" {
