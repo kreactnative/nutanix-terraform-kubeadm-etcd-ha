@@ -5,7 +5,7 @@ flowchart TB
     end
     subgraph Terraform
     end
-    subgraph Proxmox
+    subgraph Nutanix
     end
     subgraph VM
     end
@@ -19,7 +19,7 @@ flowchart TB
     end
     Macos-->Terraform
     Terraform-->Proxmox
-    Proxmox-->VM
+    Nutanix-->VM
     VM-->ETCD
     VM-->ControlPlane
     VM-->Worker
