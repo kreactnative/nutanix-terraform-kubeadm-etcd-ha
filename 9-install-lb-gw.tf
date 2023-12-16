@@ -1,6 +1,21 @@
-
+resource "local_file" "metallb" {
+  content = templatefile("templates/metal-ip.tmpl",
+    {
+      metallb_load_balancer_ip = var.metallb_load_balancer_ip
+    }
+  )
+  filename = "metal-ip.yaml"
+}
+resource "local_file" "istio" {
+  content = templatefile("templates/istio.tmpl",
+    {
+      metallb_load_balancer_ip = var.metallb_load_balancer_ip
+    }
+  )
+  filename = "istio.sh"
+}
 resource "null_resource" "install-lb-gw" {
-  depends_on = [null_resource.join-first-master, null_resource.init-other-master, null_resource.init-worker]
+  depends_on = [null_resource.join-first-master, null_resource.init-other-master, null_resource.init-worker, local_file.metallb, local_file.istio]
 
   provisioner "file" {
     source      = "k8s/istio-operator.yaml"
@@ -23,7 +38,7 @@ resource "null_resource" "install-lb-gw" {
     }
   }
   provisioner "file" {
-    source      = "k8s/metal-ip.yaml"
+    source      = "metal-ip.yaml"
     destination = "/tmp/metal-ip.yaml"
     connection {
       type        = "ssh"
@@ -53,7 +68,7 @@ resource "null_resource" "install-lb-gw" {
     }
   }
   provisioner "file" {
-    source      = "scripts/istio.sh"
+    source      = "istio.sh"
     destination = "/tmp/istio.sh"
     connection {
       type        = "ssh"

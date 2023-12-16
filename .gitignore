@@ -43,4 +43,5 @@ join-master.sh
 join-worker.sh
 helm-cni-lb.sh
 cloudinit.yaml
-
+metal-ip.yaml
+istio.sh
