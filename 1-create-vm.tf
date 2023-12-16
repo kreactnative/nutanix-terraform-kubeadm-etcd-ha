@@ -12,9 +12,9 @@ terraform {
 }
 
 provider "nutanix" {
-  username     = "admin"
-  password     = "Kdotnet34567@"
-  endpoint     = "192.168.1.201"
+  username     = var.nutanix_user
+  password     = var.nutanix_password
+  endpoint     = var.nutanix_endpoint
   insecure     = true
   wait_timeout = 60
 }
