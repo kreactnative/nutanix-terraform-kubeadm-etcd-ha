@@ -21,11 +21,10 @@ provider "nutanix" {
 
 resource "null_resource" "cleanup" {
   provisioner "local-exec" {
-    command     = "mkdir -p output && rm -f nginx.conf cluster.yaml join-master.sh join-worker.sh helm-cni-lb.sh cloudinit.yaml istio.sh metal-ip.yaml"
+    command     = "mkdir -p output && rm -f nginx.conf cluster.yaml join-master.sh join-worker.sh helm-cni-lb.sh istio.sh metal-ip.yaml"
     working_dir = path.root
   }
 }
-
 
 module "master_domain" {
   source               = "./modules/domain"

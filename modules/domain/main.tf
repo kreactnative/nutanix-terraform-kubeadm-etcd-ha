@@ -21,19 +21,7 @@ data "nutanix_subnet" "subnet" {
   subnet_name = var.nutanix_subnet_name
 }
 
-
-resource "local_file" "cloudinit" {
-  content = templatefile("templates/cloudinit.tmpl",
-    {
-      user    = var.user,
-      ssh_key = var.ssh_key
-    }
-  )
-  filename = "cloudinit.yaml"
-}
-
 resource "nutanix_virtual_machine" "vm" {
-  depends_on           = [local_file.cloudinit]
   count                = var.VM_COUNT
   name                 = "${var.prefix_node_name}-0${count.index + 1}"
   cluster_uuid         = data.nutanix_cluster.cluster.id
@@ -61,5 +49,13 @@ resource "nutanix_virtual_machine" "vm" {
       }
     }
   }
-  guest_customization_cloud_init_user_data = filebase64("cloudinit.yaml")
+  guest_customization_cloud_init_user_data = "${base64encode(<<EOF
+    #cloud-config
+    users:
+      - name: ${var.user}
+        sudo: ['ALL=(ALL) NOPASSWD:ALL']
+        ssh-authorized-keys:
+          - ${var.ssh_key}
+    EOF
+  )}"
 }

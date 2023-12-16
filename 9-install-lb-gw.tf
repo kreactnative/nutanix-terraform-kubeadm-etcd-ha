@@ -1,21 +1,5 @@
-resource "local_file" "metallb" {
-  content = templatefile("templates/metal-ip.tmpl",
-    {
-      metallb_load_balancer_ip = var.metallb_load_balancer_ip
-    }
-  )
-  filename = "metal-ip.yaml"
-}
-resource "local_file" "istio" {
-  content = templatefile("templates/istio.tmpl",
-    {
-      istio_version = var.istio_version
-    }
-  )
-  filename = "istio.sh"
-}
 resource "null_resource" "install-lb-gw" {
-  depends_on = [null_resource.join-first-master, null_resource.init-other-master, null_resource.init-worker, local_file.metallb, local_file.istio]
+  depends_on = [local_file.metallb, local_file.istio, null_resource.join-first-master, null_resource.init-other-master, null_resource.init-worker]
 
   provisioner "file" {
     source      = "k8s/istio-operator.yaml"
