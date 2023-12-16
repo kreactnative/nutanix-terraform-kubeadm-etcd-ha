@@ -8,7 +8,7 @@ resource "null_resource" "init-other-master" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.master_domain[count.index + 1].address
+      host        = module.master_domain.address[count.index + 1]
       private_key = file("~/.ssh/id_rsa")
     }
   }
@@ -20,7 +20,7 @@ resource "null_resource" "init-other-master" {
     connection {
       type        = "ssh"
       user        = var.user
-      host        = module.master_domain[count.index + 1].address
+      host        = module.master_domain.address[count.index + 1]
       private_key = file("~/.ssh/id_rsa")
       timeout     = "20s"
     }
