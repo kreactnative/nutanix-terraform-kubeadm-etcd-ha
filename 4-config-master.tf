@@ -1,6 +1,6 @@
 resource "null_resource" "control-plane-config" {
   depends_on = [docker_container.etcd-gen, null_resource.etcd-config, module.master_domain, local_file.nginx_config]
-  count      = length(module.master_domain)
+  count      = var.MASTER_COUNT
   provisioner "file" {
     source      = "output/ca.pem"
     destination = "/tmp/ca.pem"

@@ -21,7 +21,7 @@ resource "docker_container" "etcd-gen" {
 
 resource "null_resource" "etcd-config" {
   depends_on = [docker_container.etcd-gen]
-  count      = length(module.etcd_domain)
+  count      = var.ETCD_COUNT
   provisioner "file" {
     source      = "output/ca.pem"
     destination = "/tmp/ca.pem"

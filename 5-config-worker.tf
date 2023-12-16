@@ -1,6 +1,6 @@
 resource "null_resource" "worker-config" {
   depends_on = [docker_container.etcd-gen, null_resource.etcd-config, module.master_domain, local_file.nginx_config]
-  count      = length(module.worker_domain)
+  count      = var.WORKER_COUNT
   provisioner "file" {
     source      = "scripts/setup-k8s.sh"
     destination = "/tmp/setup-k8s.sh"
