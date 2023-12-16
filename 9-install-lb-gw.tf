@@ -1,6 +1,36 @@
-resource "null_resource" "install-lb-gw" {
-  depends_on = [local_file.metallb, local_file.istio, null_resource.join-first-master, null_resource.init-other-master, null_resource.init-worker]
+resource "null_resource" "generte-metallb-istio" {
+  provisioner "local-exec" {
+    command = "cp -r ${path.root}/templates/metal-ip.tmpl metal-ip.yaml"
+  }
+  provisioner "local-exec" {
+    command = "sed -i -e 's/metallb_load_balancer_ip/${var.metallb_load_balancer_ip}/g' metal-ip.yaml"
+  }
+  provisioner "local-exec" {
+    command = "cp -r ${path.root}/templates/istio.tmpl istio.sh"
+  }
+  provisioner "local-exec" {
+    command = "sed -i -e 's/istio_version_re/${var.istio_version}/g' istio.sh"
+  }
+}
+resource "local_file" "metallb-ip" {
+  content = templatefile("${path.root}/templates/metal-ip.tmpl",
+    {
+      metallb_load_balancer_ip = var.metallb_load_balancer_ip
+    }
+  )
+  filename = "metal-ip.yaml"
+}
+resource "local_file" "istio-sh" {
+  content = templatefile("${path.root}/templates/istio.tmpl",
+    {
+      istio_version = var.istio_version
+    }
+  )
+  filename = "istio.sh"
+}
 
+resource "null_resource" "install-lb-gw" {
+  depends_on = [null_resource.init-worker, null_resource.generte-metallb-istio]
   provisioner "file" {
     source      = "k8s/istio-operator.yaml"
     destination = "/tmp/istio-operator.yaml"

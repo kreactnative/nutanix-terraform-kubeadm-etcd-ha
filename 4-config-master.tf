@@ -1,22 +1,5 @@
-resource "local_file" "metallb" {
-  content = templatefile("templates/metal-ip.tmpl",
-    {
-      metallb_load_balancer_ip = var.metallb_load_balancer_ip
-    }
-  )
-  filename = "metal-ip.yaml"
-}
-resource "local_file" "istio" {
-  content = templatefile("templates/istio.tmpl",
-    {
-      istio_version = var.istio_version
-    }
-  )
-  filename = "istio.sh"
-}
-
 resource "null_resource" "control-plane-config" {
-  depends_on = [docker_container.etcd-gen, null_resource.etcd-config, module.master_domain, local_file.nginx_config, local_file.metallb, local_file.istio, ]
+  depends_on = [docker_container.etcd-gen, null_resource.etcd-config, module.master_domain, local_file.nginx_config]
   count      = var.MASTER_COUNT
   provisioner "file" {
     source      = "output/ca.pem"

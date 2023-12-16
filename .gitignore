@@ -43,5 +43,7 @@ join-master.sh
 join-worker.sh
 helm-cni-lb.sh
 metal-ip.yaml
+metal-ip.yaml-e
 istio.sh
+istio.sh-e
 

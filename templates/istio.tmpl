@@ -5,8 +5,8 @@ kubectl apply -f metric-server.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.12/config/manifests/metallb-native.yaml
 kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 sleep 20
-curl -L https://istio.io/downloadIstio | ISTIO_VERSION=${istio_version} sh -
-cd istio-${istio_version}/bin || exit
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=istio_version_re sh -
+cd istio-istio_version_re/bin || exit
 sudo chmod +x istioctl
 ./istioctl install -f /tmp/istio-operator.yaml -y
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
