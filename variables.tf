@@ -1,5 +1,5 @@
 variable "nutanix_password" {
-  type      = string
+  type = string
 }
 variable "nutanix_endpoint" {
   type = string
@@ -74,4 +74,13 @@ variable "elb_config" {
     vcpus   = number
     sockets = number
   })
+}
+# metallb load balancer ip
+variable "metallb_load_balancer_ip" {
+  type    = string
+  default = "192.168.1.40"
+}
+variable "istio_version" {
+  type    = string
+  default = "1.20.1"
 }

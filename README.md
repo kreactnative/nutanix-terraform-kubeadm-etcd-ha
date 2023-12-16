@@ -76,5 +76,5 @@ elb_config = {
   vcpus   = 1
   sockets = 1
 }
-
+metallb_load_balancer_ip = "192.168.1.40"
 ```

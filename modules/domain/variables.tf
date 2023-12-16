@@ -4,7 +4,7 @@ variable "ssh_key" {
 variable "user" {
   description = "user for ssh"
   type        = string
-  default     = "rocky"
+  default     = "almalinux"
 }
 variable "memory" {
   description = "Amount of memory needed"

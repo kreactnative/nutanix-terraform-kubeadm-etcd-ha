@@ -21,7 +21,18 @@ data "nutanix_subnet" "subnet" {
   subnet_name = "k8s-subnet"
 }
 
+resource "local_file" "cloudinit" {
+  content = templatefile("templates/cloudinit.tmpl",
+    {
+      user    = var.user,
+      ssh_key = var.ssh_key
+    }
+  )
+  filename = "cloudinit.yaml"
+}
+
 resource "nutanix_virtual_machine" "vm" {
+  depends_on           = [local_file.cloudinit]
   count                = var.VM_COUNT
   name                 = "${var.prefix_node_name}-0${count.index + 1}"
   cluster_uuid         = data.nutanix_cluster.cluster.id
