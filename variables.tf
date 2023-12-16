@@ -20,7 +20,7 @@ variable "WORKER_COUNT" {
 }
 
 variable "ETCD_COUNT" {
-  description = "Number of etct to create"
+  description = "Number of etcd to create"
   type        = number
   default     = 3
 }
