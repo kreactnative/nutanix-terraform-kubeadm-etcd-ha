@@ -9,7 +9,7 @@ resource "local_file" "metallb" {
 resource "local_file" "istio" {
   content = templatefile("templates/istio.tmpl",
     {
-      metallb_load_balancer_ip = var.metallb_load_balancer_ip
+      istio_version = var.istio_version
     }
   )
   filename = "istio.sh"
