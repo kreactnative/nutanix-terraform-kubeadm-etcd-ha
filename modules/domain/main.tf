@@ -14,25 +14,14 @@ resource "nutanix_image" "image" {
 }
 
 data "nutanix_cluster" "cluster" {
-  name = "pertisk"
+  name = var.nutanix_cluster_name
 }
 
 data "nutanix_subnet" "subnet" {
-  subnet_name = "k8s-subnet"
-}
-
-resource "local_file" "cloudinit" {
-  content = templatefile("templates/cloudinit.tmpl",
-    {
-      user    = var.user,
-      ssh_key = var.ssh_key
-    }
-  )
-  filename = "cloudinit.yaml"
+  subnet_name = var.nutanix_subnet_name
 }
 
 resource "nutanix_virtual_machine" "vm" {
-  depends_on           = [local_file.cloudinit]
   count                = var.VM_COUNT
   name                 = "${var.prefix_node_name}-0${count.index + 1}"
   cluster_uuid         = data.nutanix_cluster.cluster.id
@@ -60,5 +49,5 @@ resource "nutanix_virtual_machine" "vm" {
       }
     }
   }
-  guest_customization_cloud_init_user_data = filebase64("./cloudinit.yaml")
+  guest_customization_cloud_init_user_data = var.cloudinit_data
 }
