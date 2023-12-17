@@ -19,12 +19,14 @@ sudo dnf update -y
 sudo dnf install nginx -y
 sudo systemctl enable nginx
 sudo systemctl restart nginx
-NGINC_VERSION=$(nginx -v |& sed 's/nginx version: nginx\///')
+NGINX_VERSION=$(nginx -v |& sed 's/nginx version: nginx\///')
+echo '---------- ${NGINX_VERSION}--------------------'
 sudo dnf install openssl-devel gcc wget curl pcre-devel zlib-devel -y
-sudo yum install wget gcc glibc glibc-common gd gd-devel -y
-sudo wget https://nginx.org/download/nginx-$NGINC_VERSION.tar.gz
-tar  -xzvf  nginx-$NGINC_VERSION.tar.gz
-cd $NGINC_VERSION
+sudo yum install curl wget gcc glibc glibc-common gd gd-devel -y
+#sudo wget https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz
+sudo curl -L -o nginx.tar.gz https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz
+tar  -xzvf  nginx.tar.gz
+cd nginx-$NGINX_VERSION
 sudo ./configure --prefix=/usr/local/nginx --modules-path=/usr/local/nginx/modules --user=nginx --group=nginx --with-stream=dynamic --with-compat
 sudo make
 sudo make install
