@@ -34,7 +34,7 @@ resource "local_file" "istio-sh" {
 }
 
 resource "null_resource" "install-lb-gw" {
-  depends_on = [null_resource.init-worker, null_resource.generte-metallb-istio]
+  depends_on = [null_resource.init-worker, null_resource.generte-metallb-istio, null_resource.init-other-master]
   provisioner "file" {
     source      = "k8s/istio-operator.yaml"
     destination = "/tmp/istio-operator.yaml"
