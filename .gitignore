@@ -46,4 +46,6 @@ metal-ip.yaml
 metal-ip.yaml-e
 istio.sh
 istio.sh-e
-
+terraform-visual-report/
+plan.json
+plan.out
