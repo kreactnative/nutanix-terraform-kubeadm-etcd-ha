@@ -6,14 +6,25 @@
 #sudo firewall-cmd --permanent --add-port=22/tcp --zone=public
 #sudo firewall-cmd --permanent --add-port=6443/tcp --zone=public
 #sudo systemctl restart firewalld
+sudo tee /etc/yum.repos.d/nginx-stable.repo<<EOF
+[nginx-stable]
+name=nginx stable repo
+baseurl=http://nginx.org/packages/centos/9/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://nginx.org/keys/nginx_signing.key
+module_hotfixes=true
+EOF
+sudo dnf update -y
 sudo dnf install nginx -y
 sudo systemctl enable nginx
 sudo systemctl restart nginx
+NGINC_VERSION=$(nginx -v |& sed 's/nginx version: nginx\///')
 sudo dnf install openssl-devel gcc wget curl pcre-devel zlib-devel -y
 sudo yum install wget gcc glibc glibc-common gd gd-devel -y
-sudo wget https://nginx.org/download/nginx-1.20.1.tar.gz
-tar  -xzvf  nginx-1.20.1.tar.gz
-cd nginx-1.20.1
+sudo wget https://nginx.org/download/nginx-$NGINC_VERSION.tar.gz
+tar  -xzvf  nginx-$NGINC_VERSION.tar.gz
+cd $NGINC_VERSION
 sudo ./configure --prefix=/usr/local/nginx --modules-path=/usr/local/nginx/modules --user=nginx --group=nginx --with-stream=dynamic --with-compat
 sudo make
 sudo make install

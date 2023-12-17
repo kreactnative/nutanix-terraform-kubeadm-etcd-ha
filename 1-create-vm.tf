@@ -21,7 +21,7 @@ provider "nutanix" {
 
 resource "null_resource" "cleanup" {
   provisioner "local-exec" {
-    command     = "mkdir -p output && rm -f nginx.conf cluster.yaml join-master.sh join-worker.sh helm-cni-lb.sh istio.sh metal-ip.yaml"
+    command     = "mkdir -p output && rm -f nginx.conf cluster.yaml join-master.sh join-worker.sh helm-cni-lb.sh istio.sh metal-ip.yaml istio.sh-e metal-ip.yaml-e"
     working_dir = path.root
   }
 }

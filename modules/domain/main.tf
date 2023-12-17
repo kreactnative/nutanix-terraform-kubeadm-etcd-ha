@@ -7,11 +7,11 @@ terraform {
   }
 }
 
-resource "nutanix_image" "image" {
+/*resource "nutanix_image" "image" {
   name        = "Alma Linux"
   description = "Alma Linux"
   source_uri  = "https://repo.almalinux.org/almalinux/9/cloud/x86_64/images/AlmaLinux-9-GenericCloud-9.3-20231113.x86_64.qcow2"
-}
+}*/
 
 data "nutanix_cluster" "cluster" {
   name = var.nutanix_cluster_name
@@ -31,7 +31,7 @@ resource "nutanix_virtual_machine" "vm" {
   disk_list {
     data_source_reference = {
       kind = "image"
-      uuid = nutanix_image.image.id
+      uuid = "a01a4bec-d522-4ba7-825d-0051d6649e6d"//nutanix_image.image.id
     }
   }
 

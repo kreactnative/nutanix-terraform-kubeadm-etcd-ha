@@ -1,5 +1,6 @@
 # Tempolary fixed
 resource "null_resource" "generte-metallb-istio" {
+  depends_on = [module.elb_domain]
   provisioner "local-exec" {
     command = "cp -r ${path.root}/templates/metal-ip.tmpl metal-ip.yaml"
   }
